@@ -60,7 +60,7 @@ export const HeroSection: React.FC = () => {
                  min-h-screen flex flex-col justify-between p-6 sm:p-8
                  lg:h-screen lg:max-h-screen lg:p-12"
     >
-      {/* 1. Alive Background Canvas with Anti-Glare Scrim */}
+      {/* 1. Background Canvas with Anti-Glare Scrim */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div 
           ref={bgRef}
@@ -74,8 +74,8 @@ export const HeroSection: React.FC = () => {
         {/* Global base fade for header and footer readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#161416]/90 via-transparent to-black/40" />
 
-        {/* Localized Anti-Glare Scrim behind the glass panel */}
-        <div className="absolute inset-y-0 left-0 w-full lg:w-3/5 bg-gradient-to-r from-black/50 via-black/25 to-transparent" />
+        {/* Localized Anti-Glare Scrim */}
+        <div className="absolute inset-y-0 left-0 w-full lg:w-3/5 bg-gradient-to-r from-black/55 via-black/30 to-transparent" />
       </div>
 
       {/* 2. Top Header Bar */}
@@ -93,17 +93,27 @@ export const HeroSection: React.FC = () => {
           </span>
         </div>
 
-        <div className="route-glass-pill px-4 py-1.5 text-xs text-white/80 font-mono tracking-wider">
+        <div className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-white/90 font-mono tracking-wider">
           {meta.cityState}
         </div>
       </header>
 
-      {/* 3. Main Center Original Optical Glass Panel */}
+      {/* 3. Obsidian Frosted Glass Card (Matching FAQ Glass Formula) */}
       <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center flex-1 min-h-0 my-auto py-6 lg:py-2">
-        <div className="w-full max-w-2xl route-glass-panel p-6 sm:p-8 lg:p-10 flex flex-col justify-between shrink-0">
+        <div 
+          className="w-full max-w-2xl rounded-[36px] border border-white/25 p-6 sm:p-8 lg:p-10 flex flex-col justify-between shrink-0 shadow-2xl"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(28, 32, 38, 0.72) 0%, rgba(16, 15, 18, 0.88) 100%)',
+            backdropFilter: 'blur(36px)',
+            WebkitBackdropFilter: 'blur(36px)',
+            boxShadow:
+              '0 30px 70px -15px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
+          }}
+        >
           <div>
             <div className="flex items-center gap-2 mb-2.5">
-              <span className="text-[10px] font-mono tracking-widest uppercase text-white/60">
+              <span className="text-[10px] font-mono tracking-widest uppercase text-[#7BF0EB] font-bold">
                 {hero.badge}
               </span>
             </div>
@@ -112,7 +122,7 @@ export const HeroSection: React.FC = () => {
               {hero.headline}
             </h1>
 
-            <p className="text-xs sm:text-sm lg:text-base text-white/80 font-normal leading-relaxed max-w-lg mb-6">
+            <p className="text-xs sm:text-sm lg:text-base text-white/85 font-normal leading-relaxed max-w-lg mb-6">
               {hero.description}
             </p>
           </div>
@@ -122,11 +132,11 @@ export const HeroSection: React.FC = () => {
             <button
               type="button"
               onClick={handleBookingClick}
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full font-semibold text-xs tracking-wide transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full font-bold text-xs tracking-wider uppercase transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl cursor-pointer"
               style={{
                 backgroundColor: theme.accentColor,
                 color: '#161416',
-                boxShadow: `0 10px 25px -5px ${theme.accentColor}40`
+                boxShadow: `0 10px 25px -5px ${theme.accentColor}50`
               }}
             >
               <span>{hero.primaryCtaText}</span>
@@ -135,7 +145,7 @@ export const HeroSection: React.FC = () => {
               </div>
             </button>
 
-            <div className="route-glass-pill px-4 py-2 text-[11px] text-white/80 font-medium">
+            <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] text-white/80 font-medium">
               Private Concierge &bull; Discretion Assured
             </div>
           </div>
@@ -144,7 +154,7 @@ export const HeroSection: React.FC = () => {
 
       {/* 4. Bottom Row: Partner Affiliates */}
       <footer className="relative z-10 w-full max-w-7xl mx-auto pt-6 lg:pt-4 pb-2 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shrink-0 pointer-events-none">
-        <div className="flex flex-wrap items-center gap-4 sm:gap-8 lg:gap-10 opacity-60">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-8 lg:gap-10 opacity-70">
           {hero.partnerLogos.map((logo, idx) => (
             <span key={idx} className="text-[10px] sm:text-[11px] font-mono tracking-widest text-white uppercase">
               {logo}
