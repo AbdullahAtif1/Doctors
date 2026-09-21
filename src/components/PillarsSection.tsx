@@ -66,7 +66,7 @@ export const PillarsSection: React.FC = () => {
 
         {/* Step Indicator & Controls (Desktop Only) */}
         <div className="hidden lg:flex items-center gap-3">
-          <div className="route-glass-pill px-3.5 py-1.5 text-xs font-mono text-white/80">
+          <div className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/80">
             0{activeIndex + 1} / 0{cards.length}
           </div>
           <div className="flex items-center gap-1.5">
@@ -75,8 +75,8 @@ export const PillarsSection: React.FC = () => {
               disabled={activeIndex === 0}
               className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                 activeIndex === 0
-                  ? 'opacity-30 border border-white/10 cursor-not-allowed'
-                  : 'route-glass-pill text-white hover:border-white/40'
+                  ? 'opacity-25 border border-white/10 cursor-not-allowed text-white/40'
+                  : 'bg-white/10 border border-white/20 text-white hover:border-white/50 hover:bg-white/15'
               }`}
             >
               <ChevronLeft className="w-4 h-4" />
@@ -86,8 +86,8 @@ export const PillarsSection: React.FC = () => {
               disabled={activeIndex === cards.length - 1}
               className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                 activeIndex === cards.length - 1
-                  ? 'opacity-30 border border-white/10 cursor-not-allowed'
-                  : 'route-glass-pill text-white hover:border-white/40'
+                  ? 'opacity-25 border border-white/10 cursor-not-allowed text-white/40'
+                  : 'bg-white/10 border border-white/20 text-white hover:border-white/50 hover:bg-white/15'
               }`}
             >
               <ChevronRight className="w-4 h-4" />
@@ -96,9 +96,9 @@ export const PillarsSection: React.FC = () => {
         </div>
       </header>
 
-      {/* 2A. Desktop Mode: Animated Stacking Deck */}
+      {/* 2A. Desktop Mode: Clean Single-Plane Card Stack */}
       <div className="relative z-10 w-full max-w-7xl mx-auto hidden lg:flex flex-1 min-h-0 items-center justify-center py-4">
-        <div className="relative w-full h-[330px]">
+        <div className="relative w-full h-[340px]">
           {cards.map((card, idx) => {
             const isPassed = idx < activeIndex;
             const isActive = idx === activeIndex;
@@ -107,20 +107,20 @@ export const PillarsSection: React.FC = () => {
             let translateX = '0%';
             let scale = 1;
             let opacity = 1;
-            let zIndex = isActive ? 20 : isAhead ? 25 + idx : 10 + idx;
-            const leftOffset = isPassed ? `${(idx - activeIndex) * 22}px` : '0px';
+            let zIndex = isActive ? 30 : isAhead ? 10 : 20 - (activeIndex - idx);
+            const leftOffset = isPassed ? `${(idx - activeIndex) * 20}px` : '0px';
 
             if (isAhead) {
               translateX = '105%';
-              opacity = 1;
+              opacity = 0;
             } else if (isActive) {
               translateX = '0%';
               scale = 1;
               opacity = 1;
             } else if (isPassed) {
               translateX = leftOffset;
-              scale = 1 - (activeIndex - idx) * 0.02;
-              opacity = 0.55;
+              scale = 1 - (activeIndex - idx) * 0.03;
+              opacity = 1;
             }
 
             return (
@@ -131,24 +131,30 @@ export const PillarsSection: React.FC = () => {
                   opacity,
                   zIndex,
                   transition:
-                    'transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s ease, scale 1s cubic-bezier(0.16, 1, 0.3, 1)',
-                  boxShadow:
-                    isActive || isAhead
-                      ? '-25px 0 50px -10px rgba(0, 0, 0, 0.7)'
-                      : 'none',
+                    'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, scale 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                  boxShadow: isActive
+                    ? '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.15)'
+                    : isPassed
+                    ? '-15px 0 30px -5px rgba(0, 0, 0, 0.6)'
+                    : 'none',
                   borderLeft: isPassed
-                    ? '2px solid rgba(123, 240, 235, 0.5)'
-                    : undefined,
+                    ? '3px solid #7BF0EB'
+                    : '1px solid rgba(255, 255, 255, 0.15)',
                 }}
-                className="absolute inset-0 w-full h-full route-glass-panel p-6 lg:p-7 grid grid-cols-12 gap-8 items-center"
+                /* Opaque solid background prevents underlying text ghosting */
+                className="absolute inset-0 w-full h-full bg-[#1C1A1E] rounded-[32px] p-7 grid grid-cols-12 gap-8 items-center overflow-hidden"
               >
-                {/* Left Typography Bay */}
-                <div className="col-span-7 flex flex-col justify-between h-full">
+                {/* Left Typography Bay: Fully hides on passed cards to prevent double text */}
+                <div
+                  className={`col-span-7 flex flex-col justify-between h-full transition-opacity duration-300 ${
+                    isActive ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                >
                   <div>
-                    <span className="route-glass-pill px-3 py-1 text-[10px] font-mono text-white/80 uppercase mb-2 inline-block">
+                    <span className="px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[10px] font-mono text-white/80 uppercase mb-2.5 inline-block">
                       {card.tag}
                     </span>
-                    <h3 className="text-2xl lg:text-[28px] font-bold text-white tight-heading mb-2">
+                    <h3 className="text-2xl lg:text-[28px] font-bold text-white tight-heading mb-2 leading-tight">
                       {card.title}
                     </h3>
                     <p className="text-xs lg:text-sm text-white/80 font-normal leading-relaxed max-w-lg mb-3">
@@ -156,7 +162,7 @@ export const PillarsSection: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="flex items-end justify-between pt-2.5 border-t border-white/10">
+                  <div className="flex items-end justify-between pt-3 border-t border-white/10">
                     <div className="flex items-baseline gap-2.5">
                       <span
                         className="text-3xl lg:text-4xl font-bold tight-heading"
@@ -170,6 +176,7 @@ export const PillarsSection: React.FC = () => {
                     </div>
 
                     <button
+                      type="button"
                       onClick={handleBookMeeting}
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
                       style={{
@@ -186,9 +193,13 @@ export const PillarsSection: React.FC = () => {
                 </div>
 
                 {/* Right Visual Bay */}
-                <div className="col-span-5 h-full relative rounded-2xl overflow-hidden border border-white/15 shadow-inner">
+                <div
+                  className={`col-span-5 h-full relative rounded-2xl overflow-hidden border border-white/15 shadow-inner transition-opacity duration-300 ${
+                    isActive ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                >
                   <div
-                    className="w-full h-full bg-cover bg-center transition-transform duration-1000"
+                    className="w-full h-full bg-cover bg-center transition-transform duration-700 hover:scale-105"
                     style={{ backgroundImage: `url(${card.image})` }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -199,20 +210,15 @@ export const PillarsSection: React.FC = () => {
         </div>
       </div>
 
-      {/* 2B. Mobile Mode: Route-style Sticky Stacking Deck */}
-      <div className="relative flex flex-col lg:hidden my-6">
+      {/* 2B. Mobile Mode: Route-style Clean Stacking Deck */}
+      <div className="relative flex flex-col lg:hidden my-6 gap-6">
         {cards.map((card, idx) => (
           <div
             key={card.id}
-            style={{
-              top: `${64 + idx * 16}px`,
-              zIndex: 10 + idx,
-              marginBottom: idx === cards.length - 1 ? '1.5rem' : '3.5rem',
-            }}
-            className="sticky route-glass-panel p-6 flex flex-col gap-4 shadow-2xl border border-white/15 rounded-3xl bg-[#1D1A1E]"
+            className="p-6 flex flex-col gap-4 shadow-2xl border border-white/15 rounded-3xl bg-[#1C1A1E]"
           >
             <div className="flex items-center justify-between">
-              <span className="route-glass-pill px-3 py-1 text-[10px] font-mono text-white/80 uppercase">
+              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[10px] font-mono text-white/80 uppercase">
                 {card.tag}
               </span>
               <span className="text-xs font-mono text-white/50">
@@ -247,8 +253,9 @@ export const PillarsSection: React.FC = () => {
                 </span>
               </div>
               <button
+                type="button"
                 onClick={handleBookMeeting}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-bold text-xs uppercase tracking-wider cursor-pointer"
                 style={{
                   backgroundColor: theme.accentColor,
                   color: '#161416',
