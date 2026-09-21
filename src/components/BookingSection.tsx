@@ -193,7 +193,7 @@ export const BookingSection: React.FC = () => {
   const [isBooked, setIsBooked] = useState(false);
 
   const [showSolidNumbers, setShowSolidNumbers] = useState(true);
-  const transitionTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const transitionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const activeTargetDate = dates[selectedDateIdx];
   const activeTargetSlot = bookingSection.timeSlots[selectedSlotIdx] || bookingSection.timeSlots[0];

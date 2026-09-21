@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { clinicConfig } from '../clinic.config';
 import { X, ArrowLeft, ArrowRight, Compass } from 'lucide-react';
 
