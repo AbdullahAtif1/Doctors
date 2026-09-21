@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, ComponentType } from 'react';
+import React, { useRef, useEffect, useState, type ComponentType } from 'react';
 
 import * as HeroModule from './components/HeroSection';
 import * as ModalitiesModule from './components/ModalitiesSection';
