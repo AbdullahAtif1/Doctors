@@ -17,7 +17,7 @@ export const HeroSection: React.FC = () => {
     const yRatio = (e.clientY - rect.top) / rect.height - 0.5;
 
     targetPos.current = {
-      x: -xRatio * 22,
+      x: -xRatio * 20,
       y: -yRatio * 14,
     };
   };
@@ -67,12 +67,20 @@ export const HeroSection: React.FC = () => {
           className="absolute -inset-[3%] w-[106%] h-[106%] bg-cover bg-center will-change-transform"
           style={{ 
             backgroundImage: `url(${hero.bgImage})`,
-            filter: 'brightness(0.92) contrast(1.02)'
+            filter: 'brightness(0.96) contrast(1.03)'
           }}
         />
 
-        {/* Subtle ground and header fades */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#161416]/80 via-transparent to-black/30" />
+        {/* TARGETED WINDOW DIMMER: Feathered dark pool focused on the top-left window */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at 22% 35%, rgba(14, 16, 20, 0.68) 0%, rgba(14, 16, 20, 0.35) 45%, transparent 75%)'
+          }}
+        />
+
+        {/* Ambient base vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#161416]/85 via-transparent to-black/25" />
       </div>
 
       {/* 2. Top Header Bar */}
@@ -92,17 +100,18 @@ export const HeroSection: React.FC = () => {
         </div>
       </header>
 
-      {/* 3. Center Frosted Glass Card (Exact Match to Screenshot) */}
+      {/* 3. Center Frosted Glass Card */}
       <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center flex-1 min-h-0 my-auto py-6 lg:py-2">
         <div 
           className="w-full max-w-2xl rounded-[38px] border border-white/30 p-8 sm:p-10 lg:p-12 flex flex-col justify-between shrink-0"
           style={{
+            /* Tweak the 0.18 (highlight) and 0.68 (shadow) if you want the glass more/less opaque */
             background:
-              'linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(18, 16, 22, 0.68) 100%)',
-            backdropFilter: 'blur(32px)',
-            WebkitBackdropFilter: 'blur(32px)',
+              'linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(18, 16, 22, 0.72) 100%)',
+            backdropFilter: 'blur(34px)',
+            WebkitBackdropFilter: 'blur(34px)',
             boxShadow:
-              '0 30px 70px -15px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
+              '0 30px 70px -15px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.35)',
           }}
         >
           <div>
